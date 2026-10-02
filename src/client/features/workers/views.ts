@@ -26,6 +26,7 @@ import { renderWorkers } from '../../ui/workers-panel';
 import { renderLimits } from '../../ui/limits';
 import { modelBadge, providerLabel } from '../../ui/provider';
 import { renderUsage } from '../../ui/usage';
+import { renderApprovals, setApprovalsNet } from '../../ui/approvals';
 import { Worker } from '../../world/character';
 import { Jail } from './jail';
 import { Laptop } from './laptop';
@@ -60,6 +61,7 @@ export type WorkerViewsParts = Pick<Parts, 'stage' | 'worlds' | 'travel' | 'roof
  * the queue, the theme, and what's been spent (see the order below), and the workers' own tick.
  */
 export function installWorkerViews(ctx: Ctx, core: CoreState, parts: WorkerViewsParts) {
+  setApprovalsNet(ctx.net);
   const { scene, sound, player, camera, office, sky, confetti, hands, me, net } = ctx;
   const { holiday } = parts.stage;
   const { plan, groundHere, officeWing, inOffice } = parts.worlds;
@@ -386,6 +388,7 @@ export function installWorkerViews(ctx: Ctx, core: CoreState, parts: WorkerViews
   store.on('theme', dressUp);
   store.on('usage', renderUsage);
   store.on('limits', renderLimits);
+  store.on('approvals', renderApprovals);
   // The reset countdowns tick down between reads.
   setInterval(renderLimits, 30_000);
   $('limits').addEventListener('click', () => net.send({ t: 'limits.refresh' }));

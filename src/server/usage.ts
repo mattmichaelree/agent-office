@@ -255,6 +255,8 @@ export interface LedgerOptions {
   budget?: number;
   /** Refuse new hires for the rest of the day once the budget is spent. */
   pauseHiring: boolean;
+  /** Monthly budget in USD (default $200). */
+  monthlyBudget: number;
 }
 
 const KEEP_DAYS = 90;
@@ -265,6 +267,9 @@ function localDay(d = new Date()): string {
 }
 
 export const fmtUsd = (n: number) => `$${n.toFixed(2)}`;
+const fmtUsdNoPrefix = (n: number) => `${n.toFixed(2)}`;
+
+const localMonth = (d = new Date()) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
 
 /**
  * What the office has spent, all time and per day, so totals survive restarts and outlive the
@@ -277,6 +282,8 @@ export class Ledger {
   private days: Record<string, Usage> = {};
   private warnedDay = '';
   private shownDay = '';
+  private warnedMonth = '';
+  private monthlyTotal = 0;
   private saveTimer: NodeJS.Timeout | null = null;
   private emitTimer: NodeJS.Timeout | null = null;
   private tick: NodeJS.Timeout;
@@ -290,6 +297,7 @@ export class Ledger {
     this.file = path.join(dataDir, 'usage.json');
     this.load();
     this.shownDay = localDay();
+    this.monthlyTotal = this.computeMonthTotal();
     // Midnight: "today" starts over and a paused office hires again.
     this.tick = setInterval(() => {
       if (localDay() !== this.shownDay) this.emit();
@@ -299,7 +307,8 @@ export class Ledger {
 
   state(): UsageState {
     const day = localDay();
-    return { total: { ...this.total }, today: { ...(this.days[day] ?? zeroUsage()) }, day, budget: this.opts.budget, pauseHiring: this.opts.pauseHiring };
+    const month = localMonth();
+    return { total: { ...this.total }, today: { ...(this.days[day] ?? zeroUsage()) }, day, budget: this.opts.budget, pauseHiring: this.opts.pauseHiring, monthlyBudget: this.opts.monthlyBudget, monthlyCost: this.monthlyTotal, month };
   }
 
   get overBudget(): boolean {
@@ -324,6 +333,13 @@ export class Ledger {
       this.warnedDay = day;
       const spent = fmtUsd(this.days[day].cost);
       this.toast(`💸 Today's spend passed the ${fmtUsd(this.opts.budget)} budget (${spent})${this.opts.pauseHiring ? ' — no new hires until tomorrow' : ''}`, 'warn');
+    }
+    // Monthly budget check
+    const month = localMonth();
+    this.monthlyTotal += delta.cost;
+    if (this.opts.monthlyBudget > 0 && this.monthlyTotal > this.opts.monthlyBudget && this.warnedMonth !== month) {
+      this.warnedMonth = month;
+      this.toast(`💸 Monthly spend passed the $${fmtUsdNoPrefix(this.opts.monthlyBudget)} budget ($${fmtUsdNoPrefix(this.monthlyTotal)})`, 'warn');
     }
   }
 
@@ -359,6 +375,15 @@ export class Ledger {
     } catch {
       // disk issues shouldn't take the office down
     }
+  }
+
+  private computeMonthTotal(): number {
+    const ym = localMonth();
+    let total = 0;
+    for (const [day, u] of Object.entries(this.days)) {
+      if (day.startsWith(ym)) total += u.cost;
+    }
+    return total;
   }
 
   private load() {

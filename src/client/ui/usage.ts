@@ -169,6 +169,17 @@ export function renderUsage() {
     const state = over ? (s.pauseHiring ? 'Budget spent — no new hires until tomorrow' : 'Budget spent') : `${Math.round(pct)}% of today's budget`;
     rows.push(h('div.budget', { class: over ? 'over' : pct >= 80 ? 'near' : '', title: state, role: 'progressbar', 'aria-valuenow': Math.round(pct) }, h('div.fill', { style: `width:${pct}%` })));
   }
+  if (s.monthlyBudget !== undefined) {
+    const mpct = Math.min(100, (s.monthlyCost / s.monthlyBudget) * 100);
+    const mOver = s.monthlyCost > s.monthlyBudget;
+    const mState = mOver ? 'Monthly budget spent' : `${Math.round(mpct)}% of this month's budget`;
+    rows.push(h('div.row', {},
+      h('span', {}, '📅 This month'),
+      h('b', { title: `Monthly spend ${fmtCost(s.monthlyCost)} of ${fmtCost(s.monthlyBudget)}` }, fmtCost(s.monthlyCost)),
+      h('span.muted', {}, `of ${fmtCost(s.monthlyBudget)}`),
+    ));
+    rows.push(h('div.budget.monthly', { class: mOver ? 'over' : mpct >= 80 ? 'near' : '', title: mState, role: 'progressbar', 'aria-valuenow': Math.round(mpct) }, h('div.fill', { style: `width:${mpct}%` })));
+  }
   if (s.total.calls > 0 || s.budget !== undefined) rows.push(h('div.row.muted', { title: usageTitle(s.total, 'claude') }, `Claude Code all time ${displayedCost(s.total)} · ${fmtTokens(tokensOf(s.total))} tokens`));
   if (currentOpenCodeReports > 0) {
     const amount = currentOpenCodeCostUnknown ? 'cost unavailable' : `${fmtCost(currentOpenCodeCost)} reported`;

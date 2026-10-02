@@ -7,6 +7,7 @@ import { Team } from '../team.js';
 import { Upgrader } from '../upgrade.js';
 import { Services } from '../services.js';
 import { ImageProxy } from '../decor.js';
+import { ApprovalManager } from '../approvals.js';
 import { Ledger } from '../usage.js';
 import { PlanLimitsReader } from '../limits.js';
 import { Webhook } from '../webhook.js';
@@ -40,9 +41,15 @@ export function createServices(ctx: Ctx): BuildingServices {
   const leaveOnMerge = new LeaveOnMerge(cfg.dataDir, (state) => ctx.broadcast({ t: 'leaveOnMerge', state }));
 
   // What the workers spend, all time and today, with the optional daily budget.
+  // Sensitive worker actions that need an admin to say yes.
+  const approvals = new ApprovalManager({
+    update: (list) => ctx.broadcast({ t: 'approvals', list }),
+    toast: ctx.toastAll,
+  });
+
   const ledger = new Ledger(
     cfg.dataDir,
-    { budget: cfg.budget, pauseHiring: cfg.budgetPause },
+    { budget: cfg.budget, pauseHiring: cfg.budgetPause, monthlyBudget: cfg.monthlyBudget },
     (state) => ctx.broadcast({ t: 'usage', state }),
     ctx.toastAll,
   );
@@ -125,7 +132,7 @@ export function createServices(ctx: Ctx): BuildingServices {
     });
   };
 
-  return { sky, themes, maps, prompts, leaveOnMerge, ledger, signins, limits, accountLimits, webhook, machine, limitsOf, pumpQueues };
+  return { sky, themes, maps, prompts, leaveOnMerge, approvals, ledger, signins, limits, accountLimits, webhook, machine, limitsOf, pumpQueues };
 }
 
 /** What's made once the floors are open: the SSH team, the tailnet, workers' web servers, pictures and upgrades. */

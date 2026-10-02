@@ -31,7 +31,9 @@ import { team } from './team';
 import { theme } from './theme';
 import { upgrade } from './upgrade';
 import { usage } from './usage';
+import { approvals } from './approvals';
 import { whiteboard } from './whiteboard';
+import { phone } from './phone-panel';
 
 export const SLICES: readonly Slice[] = [
   presence,
@@ -60,5 +62,7 @@ export const SLICES: readonly Slice[] = [
   jail,
   team,
   accounts,
+  approvals,
   signins,
+  phone,
 ];

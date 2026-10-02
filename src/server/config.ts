@@ -49,6 +49,8 @@ export interface Config {
   /** Daily tracked Claude Code spend budget, USD. OpenCode/Codex/Grok/Muse spend is excluded. */
 
   budget?: number;
+  /** Monthly budget in USD, default $200. */
+  monthlyBudget: number;
   /** Refuse new hires for the rest of the day once the budget is spent. */
   budgetPause: boolean;
   /** The most workers the office runs at once, across every floor; ⚙️ Settings can't go past it. */
@@ -236,6 +238,7 @@ export function loadConfig(argv: string[]): Config {
   let resetPassword = false;
   let budget = process.env.AGENT_OFFICE_BUDGET || '';
   let budgetPause = !!process.env.AGENT_OFFICE_BUDGET_PAUSE && process.env.AGENT_OFFICE_BUDGET_PAUSE !== '0';
+  let monthlyBudget = process.env.AGENT_OFFICE_MONTHLY_BUDGET || '';
   let maxWorkers = process.env.AGENT_OFFICE_MAX_WORKERS || '';
   let webhook = process.env.AGENT_OFFICE_WEBHOOK;
   let city = process.env.AGENT_OFFICE_CITY || '';
@@ -457,6 +460,7 @@ export function loadConfig(argv: string[]): Config {
     publicHost: process.env.AGENT_OFFICE_PUBLIC_HOST || undefined,
     tailnet: process.env.AGENT_OFFICE_TAILSCALE_HOST?.toLowerCase().replace(/\.$/, '') || undefined,
     budget: budgetUsd,
+    monthlyBudget: monthlyBudget ? Number(monthlyBudget) : 200,
     budgetPause,
     maxWorkers: workerLimit,
     webhook,

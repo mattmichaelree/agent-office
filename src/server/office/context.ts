@@ -12,6 +12,7 @@ import type { Team } from '../team.js';
 import type { Upgrader } from '../upgrade.js';
 import type { Services } from '../services.js';
 import type { ImageProxy } from '../decor.js';
+import type { ApprovalManager } from '../approvals.js';
 import type { Ledger } from '../usage.js';
 import type { PlanLimitsReader } from '../limits.js';
 import type { Webhook } from '../webhook.js';
@@ -61,6 +62,7 @@ export interface BuildingServices {
   maps: Maps;
   prompts: OfficePrompts;
   leaveOnMerge: LeaveOnMerge;
+  approvals: ApprovalManager;
   ledger: Ledger;
   signins: SignIns;
   /** The office's own Claude plan limits. */

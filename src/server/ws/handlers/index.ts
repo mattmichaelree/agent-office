@@ -1,6 +1,7 @@
 // Every message a browser can send, by type, and the features that keep something per person on a
 // floor. A new feature adds its handler file and a line here.
 import type { ClientMsg } from '../../../shared/protocol.js';
+import { approvalHandlers } from './approvals.js';
 import { accountsHandlers } from './accounts.js';
 import { ballHandlers, ballHooks, ballView } from './ball.js';
 import { cabinetHandlers, cabinetHooks, cabinetView } from './cabinet.js';
@@ -28,6 +29,7 @@ import type { FeatureHooks, HandlerMap, ViewPieces } from './types.js';
 /** Each domain's handlers put together, in alphabetical order. */
 export const handlers: HandlerMap<ClientMsg> = {
   ...accountsHandlers,
+  ...approvalHandlers,
   ...ballHandlers,
   ...cabinetHandlers,
   ...commandHandlers,

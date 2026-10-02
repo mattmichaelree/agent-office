@@ -1,0 +1,35 @@
+/* Phone and SMS panel: calls list, messages, send SMS form */
+.phone .header-actions { display: flex; gap: 8px; align-items: center; }
+.phone .header-actions .btn { font-size: 12px; padding: 3px 10px; }
+.phone .tabs { display: flex; gap: 0; margin: 0; }
+.phone .tabs .btn { border: 1px solid var(--ink); border-radius: 0; font-size: 12px; padding: 5px 14px; background: #fff; color: var(--ink); }
+.phone .tabs .btn:first-child { border-radius: 8px 0 0 8px; }
+.phone .tabs .btn:last-child { border-radius: 0 8px 8px 0; }
+.phone .tabs .btn + .btn { border-left: 0; }
+.phone .tabs .btn.on { background: var(--ink); color: #fff; }
+.phone .panel { padding: 10px 0; }
+.phone .list { list-style: none; margin: 0; padding: 0; max-height: 320px; overflow-y: auto; }
+.phone .list li { padding: 8px 10px; border-bottom: 1px solid #e9ecef; display: flex; flex-direction: column; gap: 2px; font-size: 13px; }
+.phone .list li:first-child { border-top: 1px solid #e9ecef; }
+.phone .list .call-from { font-weight: 600; color: var(--ink); }
+.phone .list .call-to { color: #6c757d; }
+.phone .list .call-status { display: inline-block; font-size: 11px; padding: 1px 6px; border-radius: 999px; font-weight: 600; }
+.phone .list .call-status.completed { background: #d4edda; color: #155724; }
+.phone .list .call-status.missed { background: #f8d7da; color: #721c24; }
+.phone .list .call-status.connected { background: #d1ecf1; color: #0c5460; }
+.phone .list .call-status.failed { background: #f8d7da; color: #721c24; }
+.phone .list .call-status.ringing { background: #fff3cd; color: #856404; }
+.phone .list .call-time { font-size: 11px; color: #6c757d; }
+.phone .list .msg-from { font-weight: 600; }
+.phone .list .msg-body { color: #212529; white-space: pre-wrap; word-break: break-word; }
+.phone .list .msg-time { font-size: 11px; color: #6c757d; }
+.phone .list .msg-sent { opacity: 0.7; font-style: italic; }
+.phone .send-form { display: flex; flex-direction: column; gap: 6px; padding: 10px; border-top: 1px solid #dee2e6; }
+.phone .send-form label { font-size: 12px; font-weight: 600; }
+.phone .send-form input, .phone .send-form textarea { font: inherit; padding: 6px 8px; border: 2px solid var(--ink); border-radius: 8px; width: 100%; box-sizing: border-box; }
+.phone .send-form textarea { resize: vertical; min-height: 60px; }
+.phone .send-form .btn-row { display: flex; gap: 8px; justify-content: flex-end; }
+.phone .empty { padding: 20px; text-align: center; color: #6c757d; font-size: 13px; }
+.phone .error { padding: 8px 12px; background: #f8d7da; color: #721c24; border-radius: 8px; font-size: 12px; margin: 6px 0; }
+.phone .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--ink); border-top-color: transparent; border-radius: 50%; animation: spin .6s linear infinite; margin-right: 6px; vertical-align: middle; }
+@keyframes spin { to { transform: rotate(360deg); } }

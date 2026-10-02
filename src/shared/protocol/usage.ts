@@ -61,6 +61,12 @@ export interface UsageState {
   budget?: number;
   /** New hires are refused for the rest of the day once the budget is spent (--budget-pause). */
   pauseHiring: boolean;
+  /** Monthly budget in USD (default $200). */
+  monthlyBudget?: number;
+  /** Spend this month, for the monthly budget check. */
+  monthlyCost: number;
+  /** The month `monthlyCost` covers, e.g. "2026-10". */
+  month: string;
 }
 
 /** One of the Claude plan's usage windows: the 5-hour session, the week, or a model's week. */

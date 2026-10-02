@@ -18,7 +18,7 @@ const zeroUsage = (): Usage => ({ input: 0, output: 0, cacheWrite: 0, cacheRead:
 /** What the workers have spent, and how much of the plan's limits is left. */
 export const usage: Slice = {
   init(s) {
-    s.usage = { total: zeroUsage(), today: zeroUsage(), day: '', pauseHiring: false };
+    s.usage = { total: zeroUsage(), today: zeroUsage(), day: '', pauseHiring: false, monthlyCost: 0, month: '' };
     s.limits = { windows: [], at: 0 };
   },
   on: {

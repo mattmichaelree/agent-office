@@ -6,6 +6,7 @@
 import type { CommandClientMsg, CommandServerMsg } from './protocol/command.js';
 
 import type { AccountsClientMsg, AccountsServerMsg, SignInsClientMsg, TeamClientMsg } from './protocol/accounts.js';
+import type { ApprovalClientMsg, ApprovalServerMsg } from './protocol/approvals.js';
 import type { ChangesClientMsg, ChangesServerMsg } from './protocol/changes.js';
 import type { FloorClientMsg, FloorServerMsg, PlanClientMsg } from './protocol/floors.js';
 import type { GitHubClientMsg, GitHubServerMsg } from './protocol/github.js';
@@ -17,8 +18,12 @@ import type { SettingsClientMsg, SettingsServerMsg } from './protocol/settings.j
 import type { BallClientMsg, CabinetClientMsg, CarClientMsg, DecorClientMsg, DogClientMsg, JukeboxClientMsg, ToysServerMsg, WhiteboardClientMsg } from './protocol/toys.js';
 import type { UsageClientMsg, UsageServerMsg } from './protocol/usage.js';
 import type { WorkerClientMsg, WorkerServerMsg } from './protocol/workers.js';
+import type { RosterClientMsg, RosterServerMsg } from './protocol/roster.js';
+import type { MailClientMsg, MailServerMsg } from './protocol/mailroom.js';
+import type { PhoneClientMsg, PhoneServerMsg } from './protocol/phone.js';
 
 export * from './protocol/accounts.js';
+export * from './protocol/approvals.js';
 export * from './protocol/command.js';
 export * from './protocol/agents.js';
 export * from './protocol/changes.js';
@@ -32,6 +37,9 @@ export * from './protocol/settings.js';
 export * from './protocol/toys.js';
 export * from './protocol/usage.js';
 export * from './protocol/workers.js';
+export * from './protocol/mailroom.js';
+export * from './protocol/roster.js';
+export * from './protocol/phone.js';
 
 export type ClientMsg =
   | PresenceClientMsg
@@ -55,7 +63,11 @@ export type ClientMsg =
   | WhiteboardClientMsg
   | BallClientMsg
   | CarClientMsg
-  | DogClientMsg;
+  | DogClientMsg
+  | MailClientMsg
+  | PhoneClientMsg
+  | ApprovalClientMsg
+  | RosterClientMsg;
 
 export type ServerMsg =
   | PresenceServerMsg
@@ -70,4 +82,8 @@ export type ServerMsg =
   | AccountsServerMsg
   | SettingsServerMsg
   | UsageServerMsg
-  | ToysServerMsg;
+  | ToysServerMsg
+  | MailServerMsg
+  | PhoneServerMsg
+  | ApprovalServerMsg
+  | RosterServerMsg;

@@ -74,6 +74,7 @@ export function onConnection(ctx: Ctx, ws: WebSocket, url: URL, session: Session
     version: upgrader.version,
     upgrade: upgrader.state,
     usage: ledger.state(),
+    approvals: ctx.approvals.list(),
     limits: limitsOf(client).state,
     me,
     notify: webhook.state(),

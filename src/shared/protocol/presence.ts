@@ -122,6 +122,8 @@ export type PresenceServerMsg =
       version: string;
       upgrade: UpgradeState;
       usage: UsageState;
+      /** Pending and recent approval requests. */
+      approvals: import('./approvals.js').ApprovalRequest[];
       limits: PlanLimits;
       me: Me;
       notify: NotifyState;

@@ -1,0 +1,49 @@
+/* Approval queue panel — sensitive worker actions awaiting an admin's yes or no. */
+#approvals {
+  --panel-width: 340px;
+  max-height: 360px;
+}
+#approvals.hidden { display: none; }
+#approvals h3 .count {
+  background: var(--badge, #e74c3c);
+  color: #fff;
+  font-size: 11px;
+  padding: 0 6px;
+  border-radius: 8px;
+  margin-left: 6px;
+}
+#approvals .row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  font-size: 12px;
+}
+#approvals .row .what { font-weight: 600; }
+#approvals .row .muted { color: var(--text-dim, #888); font-size: 11px; }
+#approvals .detail {
+  padding: 2px 8px;
+  font-size: 11px;
+  color: var(--text-dim, #888);
+  line-height: 1.4;
+  word-break: break-word;
+}
+#approvals .actions {
+  display: flex;
+  gap: 6px;
+  padding: 4px 8px;
+}
+#approvals .actions button {
+  font-size: 12px;
+  padding: 2px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+#approvals .actions .approve { background: #27ae60; color: #fff; }
+#approvals .actions .reject { background: #c0392b; color: #fff; }
+#approvals .status {
+  padding: 2px 8px;
+  font-size: 11px;
+  color: var(--text-dim, #888);
+}
