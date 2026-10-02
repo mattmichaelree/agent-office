@@ -1,11 +1,10 @@
 // WebSocket handler for roster CRUD and quick-hire.
 import { isAgentProvider, isAgentEffort, type RosterClientMsg } from '../../../shared/protocol.js';
-import type { HandlerMap, ViewPieces } from './types.js';
+import type { HandlerMap } from './types.js';
 import { here } from './common.js';
 import { str } from '../../office/input.js';
 import * as roster from '../../roster.js';
 
-export const rosterView: ViewPieces['roster'] = (_ctx, _floor) => roster.state();
 
 export const rosterHandlers = {
   'roster.list'(ctx, c) {

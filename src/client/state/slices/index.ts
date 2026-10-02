@@ -34,8 +34,13 @@ import { usage } from './usage';
 import { approvals } from './approvals';
 import { whiteboard } from './whiteboard';
 import { phone } from './phone-panel';
+import { mailroom } from "./mailroom.js";
+import { roster } from "./roster.js";
 
 export const SLICES: readonly Slice[] = [
+  mailroom,
+  roster,
+  phone,
   presence,
   upgrade,
   usage,

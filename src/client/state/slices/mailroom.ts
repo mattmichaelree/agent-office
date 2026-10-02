@@ -1,5 +1,5 @@
 import type { Slice } from "../store";
-import type { MailMessage, MailroomState } from "../../shared/protocol.js";
+import type { MailMessage, MailroomState } from "../../../shared/protocol.js";
 
 declare module "../store" {
   interface Store {

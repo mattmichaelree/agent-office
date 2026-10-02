@@ -1,4 +1,4 @@
-import type { RosterState } from '../../../shared/protocol';
+import type { RosterState } from '../../../shared/protocol.js';
 import type { Slice } from '../store';
 
 declare module '../store' {
@@ -15,10 +15,6 @@ export const roster: Slice = {
     s.roster = { profiles: [] };
   },
   on: {
-    welcome(s, m) {
-      s.roster = m.roster ?? { profiles: [] };
-      return ['roster'];
-    },
     'roster.state'(s, m) {
       s.roster = m.state;
       return ['roster'];

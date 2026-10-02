@@ -28,6 +28,9 @@ import type { FeatureHooks, HandlerMap, ViewPieces } from './types.js';
 
 /** Each domain's handlers put together, in alphabetical order. */
 export const handlers: HandlerMap<ClientMsg> = {
+  ...mailroomHandlers,
+  ...rosterHandlers,
+  ...phoneHandlers,
   ...accountsHandlers,
   ...approvalHandlers,
   ...ballHandlers,
@@ -77,4 +80,6 @@ export const views: ViewPieces = {
   whiteboard: whiteboardView,
   meeting: meetingView,
   cabinet: cabinetView,
-};
+};import { mailroomHandlers } from "./mailroom.js";
+import { rosterHandlers } from "./roster.js";
+import { phoneHandlers } from "./phone-panel.js";
