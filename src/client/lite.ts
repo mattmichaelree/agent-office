@@ -322,6 +322,61 @@ $('btn-pulls').addEventListener('click', () => openBoard('pulls', net, boardActi
 $('btn-queue').addEventListener('click', () => openQueue(net, { openTerminal: openWorker }));
 $('btn-new').addEventListener('click', () => sendToWorker('✨ New task'));
 
+
+// ---- Command Center Dashboard
+(function() {
+  var dpanel = document.getElementById("dashboard") as unknown as HTMLElement;
+  if (!dpanel) return;
+  (document.getElementById("btn-dashboard") as HTMLElement).addEventListener("click", async function() {
+    if (!dpanel.classList.contains("hidden")) { dpanel.classList.add("hidden"); return; }
+    dpanel.innerHTML = "<p>Loading dashboard...</p>";
+    dpanel.classList.remove("hidden");
+    try {
+      var r = await fetch("/api/command/summary", { cache: "no-store" });
+      renderDash(await r.json());
+    } catch(e: any) { dpanel.innerHTML = "<p>Error: " + e.message + "</p>"; }
+  });
+  function renderDash(data: any) {
+    var att = data.attention || [];
+    var h = `<button type=button onclick="this.parentElement.classList.add('hidden')" style="float:right;font-size:16px;cursor:pointer">X</button>`;
+    h += "<div class=dash-grid>";
+    var cards = [["Floors",data.floors||0],["Workers",data.totalWorkers||0],["Busy",data.busyWorkers||0],["Waiting",data.waitingWorkers||0]];
+    for (var i = 0; i < cards.length; i++) {
+      h += "<div class=dash-card><span class=num>" + cards[i][1] + "</span><span class=label>" + cards[i][0] + "</span></div>";
+    }
+    h += "</div>";
+    if (data.workers && data.workers.length) {
+      h += "<div class=dash-section><h3>Cost Overview</h3><table class=dash-table><thead><tr><th>Floor<th>Worker<th>Provider<th>Calls<th>Cost</tr></thead><tbody>";
+      var c = 0;
+      for (var fi = 0; fi < data.workers.length; fi++) {
+        var fl = data.workers[fi];
+        if (!fl.workers) continue;
+        for (var wi = 0; wi < fl.workers.length; wi++) {
+          var w = fl.workers[wi];
+          if (w.cost > 0 || w.calls > 0) {
+            c++;
+            h += "<tr><td>" + fl.floorName + "<td>" + (w.name||"?") + "<td>" + (w.provider||"-") + "<td>" + (w.calls||0) + "<td>$" + (w.cost||0).toFixed(2) + "</tr>";
+          }
+        }
+      }
+      if (!c) h += "<tr><td colspan=5 style=color:var(--muted)>No cost data</td></tr>";
+      h += "</tbody></table></div>";
+    }
+    h += "<div class=dash-section><h3>Attention (" + att.length + ")</h3>";
+    if (att.length) {
+      h += "<ul class=dash-attention>";
+      for (var ai = 0; ai < att.length; ai++) {
+        var a = att[ai];
+        var badge = a.kind === "waiting" ? "WAITING" : "DONE";
+        h += "<li class=att-" + a.kind + "><span class=att-kind>" + badge + "</span><span>" + (a.workerName ? a.workerName + ": " : "") + a.detail + "</span><span class=dash-worker-meta> on " + a.floorName + "</span></li>";
+      }
+      h += "</ul>";
+    } else { h += "<p style=color:var(--muted)>All clear!</p>"; }
+    h += "</div>";
+    dpanel.innerHTML = h;
+  }
+})();
+
 function renderNav() {
   const count = (id: string, n: number) => ($(id).querySelector('.n')!.textContent = n ? String(n) : '');
   count('btn-issues', store.issues.items.filter((i) => i.state === 'OPEN').length);

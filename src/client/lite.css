@@ -76,3 +76,30 @@ body.lite { min-height: 100dvh; background: var(--paper); -webkit-tap-highlight-
   .modal.board .column { min-width: 78vw; }
   .modal.board header .board-status { display: none; }
 }
+
+/* ---- Command Center / Executive Dashboard -------------------------------------------------- */
+#dashboard { display: none; margin: 0 0 12px; padding: 12px; background: var(--paper-2); border: 3px solid var(--ink); border-radius: var(--radius); }
+#dashboard:not(.hidden) { display: block; }
+.dash-close { float: right; padding: 4px 10px; font-size: 18px; line-height: 1; cursor: pointer; border: 0; background: none; color: var(--muted); }
+.dash-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
+.dash-card { background: #fff; border: 2px solid var(--ink); border-radius: var(--radius); padding: 10px; text-align: center; }
+.dash-card .num { display: block; font-size: 28px; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
+.dash-card .label { display: block; font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .03em; }
+.dash-section { margin-bottom: 8px; }
+.dash-section h3 { font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: .05em; margin: 0 0 6px; padding: 0; color: var(--ink); }
+.dash-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.dash-table th { text-align: left; font-weight: 800; color: var(--muted); font-size: 10px; text-transform: uppercase; padding: 4px 6px; border-bottom: 2px solid var(--muted); }
+.dash-table td { padding: 4px 6px; border-bottom: 1px solid var(--border); font-weight: 700; }
+.dash-table tr:last-child td { border-bottom: 0; }
+.dash-progress { height: 8px; background: var(--border); border-radius: 99px; overflow: hidden; }
+.dash-progress .fill { height: 100%; background: var(--ink); border-radius: 99px; }
+.budget-ok .fill { background: var(--good); }
+.budget-warn .fill { background: #e09; }
+.dash-attention { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.dash-attention li { display: flex; align-items: flex-start; gap: 6px; padding: 6px 8px; border: 1px solid var(--border); border-radius: var(--radius); font-size: 12px; }
+.dash-attention .att-kind { display: inline-block; padding: 1px 5px; border-radius: 99px; font-size: 10px; font-weight: 800; }
+.att-waiting .att-kind { background: #fcc; }
+.att-finished .att-kind { background: #cfc; }
+.dash-worker-row { display: flex; align-items: center; gap: 6px; padding: 6px 0; }
+.dash-worker-name { font-weight: 800; }
+.dash-worker-meta { font-size: 11px; color: var(--muted); }
